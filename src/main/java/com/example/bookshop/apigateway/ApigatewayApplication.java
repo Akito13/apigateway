@@ -21,6 +21,12 @@ public class ApigatewayApplication {
 				.route(r -> r.path("/bookshop/api/sach/**")
 						.filters(f -> f.rewritePath("/bookshop/api/sach/(?<segment>.*)", "/api/sach/${segment}"))
 						.uri("lb://SACH"))
+				.route(r -> r.path("/bookshop/api/cart/**")
+						.filters(f -> f.rewritePath("/bookshop/api/cart/(?<segment>.*)", "/api/cart/${segment}"))
+						.uri("lb://CART"))
+				.route(r -> r.path("/bookshop/api/account/**")
+						.filters(f -> f.rewritePath("/bookshop/api/account/(?<segment>.*)", "/api/account/${segment}"))
+						.uri("lb://ACCOUNT"))
 				.build();
 	}
 }
