@@ -3,22 +3,11 @@ spring:
     name: "apigateway"
   config:
     import: "configserver:http://localhost:8071"
-    name: apigateway
   cloud:
     gateway:
       discovery:
         locator:
           enabled: false
           lower-case-service-id: true
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    gateway:
-      enabled: true
-  info:
-    env:
-      enabled: true
+    config:
+      name: apigateway, common
