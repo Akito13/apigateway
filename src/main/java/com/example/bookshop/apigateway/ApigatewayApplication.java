@@ -27,6 +27,9 @@ public class ApigatewayApplication {
 				.route(r -> r.path("/bookshop/api/account/**")
 						.filters(f -> f.rewritePath("/bookshop/api/account/(?<segment>.*)", "/api/account/${segment}"))
 						.uri("lb://ACCOUNT"))
+				.route(r -> r.path("/bookshop/api/confirm/**")
+						.filters(f -> f.rewritePath("/bookshop/api/confirm/(?<segment>.*)", "/api/confirm/${segment}"))
+						.uri("lb://MAIL-SERVICE"))
 				.build();
 	}
 }

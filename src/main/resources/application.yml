@@ -10,4 +10,4 @@ spring:
           enabled: false
           lower-case-service-id: true
     config:
-      name: apigateway, common
+      name: common, apigateway
