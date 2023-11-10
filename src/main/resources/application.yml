@@ -11,3 +11,5 @@ spring:
           lower-case-service-id: true
     config:
       name: common, apigateway
+#server:
+#  forward-headers-strategy: framework

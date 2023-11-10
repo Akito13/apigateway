@@ -5,11 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @SpringBootApplication
+//@EnableWebSecurity
 public class ApigatewayApplication {
-
-	private final String externalSachServiceApi = "/bookshop/api/sach/";
 
 	public static void main(String[] args) {
 		SpringApplication.run(ApigatewayApplication.class, args);
