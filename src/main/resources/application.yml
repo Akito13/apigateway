@@ -5,11 +5,21 @@ spring:
     import: "configserver:http://localhost:8071"
   cloud:
     gateway:
+#      globalcors:
+#        cors-configurations:
+#          '[/**]':
+#            allowedOrigins: "http://localhost:5173"
+#            allowedMethods:
+#              - GET
+#              - POST
+#              - PUT
+#              - DELETE
+#        add-to-simple-url-handler-mapping: true
       discovery:
         locator:
           enabled: false
           lower-case-service-id: true
     config:
       name: common, apigateway
-#server:
-#  forward-headers-strategy: framework
+server:
+  forward-headers-strategy: framework
