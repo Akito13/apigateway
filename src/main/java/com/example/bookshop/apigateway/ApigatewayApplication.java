@@ -18,27 +18,27 @@ public class ApigatewayApplication {
 	}
 
 	@Bean
-	public RouteLocator bookShopRouteConfig(RouteLocatorBuilder locatorBuilder){
-		AuthorizationHeaderFilter authorizationHeaderFilter = new AuthorizationHeaderFilter();
+	public RouteLocator bookShopRouteConfig(RouteLocatorBuilder locatorBuilder, AuthorizationHeaderFilter authorizationHeaderFilter){
 		return locatorBuilder.routes()
-//				.route(r -> r.path("/bookshop/api/sach/**")
-//						.filters(f -> f.rewritePath("/bookshop/api/sach/(?<segment>.*)", "/api/sach/${segment}"))
-//						.uri("lb://SACH"))
-				.route(r -> r.path("/bookshop/api/sach/**")
-						.and().method(HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE)
-						.and().header("Authorization", "Bearer (.*)")
+				.route(r -> r.path("/bookshop/api/sach/**","/bookshop/api/loai/**")
+						.and().order(1).method(HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE)
 						.filters(f -> f
 								.rewritePath("/bookshop/api/sach/(?<segment>.*)", "/api/sach/${segment}")
-								.filter(authorizationHeaderFilter.apply(new AuthorizationHeaderFilter.Config())))
+								.stripPrefix(1)
+								.filter(authorizationHeaderFilter.apply(new AuthorizationHeaderFilter.Config("ROLE_ADMIN"))))
 						.uri("lb://SACH"))
-				.route(r -> r.path("/bookshop/api/sach/**")
-						.and().method(HttpMethod.GET)
-						.filters(f -> f.rewritePath("/bookshop/api/sach/(?<segment>.*)", "/api/sach/${segment}"))
+				.route(r -> r.path("/bookshop/api/sach/**", "/bookshop/api/loai/**")
+						.and().order(2).method(HttpMethod.GET)
+						.filters(f -> f
+								.rewritePath("/bookshop/api/sach/(?<segment>.*)", "/api/sach/${segment}")
+								.rewritePath("/bookshop/api/loai/(?<segment>.*)", "/api/loai/${segment}"))
 						.uri("lb://SACH"))
 				.route(r -> r.path("/bookshop/api/cart/**")
-						.filters(f -> f.rewritePath("/bookshop/api/cart/(?<segment>.*)", "/api/cart/${segment}"))
+						.filters(f -> f
+								.rewritePath("/bookshop/api/cart/(?<segment>.*)", "/api/cart/${segment}")
+								.filter(authorizationHeaderFilter.apply(new AuthorizationHeaderFilter.Config("ROLE_USER"))))
 						.uri("lb://CART"))
-				.route(r -> r.method(HttpMethod.POST, HttpMethod.GET, HttpMethod.DELETE, HttpMethod.PUT).and()
+				.route(r -> r
 						.path("/bookshop/api/account/**")
 						.filters(f -> f.rewritePath("/bookshop/api/account/(?<segment>.*)", "/api/account/${segment}"))
 						.uri("lb://ACCOUNT"))

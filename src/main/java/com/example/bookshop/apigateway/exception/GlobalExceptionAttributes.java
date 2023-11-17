@@ -44,7 +44,8 @@ public class GlobalExceptionAttributes extends DefaultErrorAttributes {
             if(error instanceof ConnectException) {
                 return HttpStatus.SERVICE_UNAVAILABLE;
             }
-            return HttpStatus.INTERNAL_SERVER_ERROR;
+
+            return HttpStatus.resolve(((ResponseStatusException) error).getStatusCode().value());
         });
     }
 }

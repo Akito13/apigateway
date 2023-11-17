@@ -18,6 +18,11 @@ import java.util.Collections;
 public class DefaultSecurityConfig {
 
     @Bean
+    public AuthorizationHeaderFilter gatewayJwtFilterFactory() {
+        return new AuthorizationHeaderFilter();
+    }
+
+    @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http){
         http
                 .cors(configurer -> configurer.configurationSource(r -> {
@@ -26,6 +31,7 @@ public class DefaultSecurityConfig {
                     configuration.setAllowedMethods(Collections.singletonList("*"));
                     configuration.setAllowCredentials(true);
                     configuration.setAllowedHeaders(Collections.singletonList("*"));
+                    configuration.setExposedHeaders(Collections.singletonList("*"));
                     configuration.setMaxAge(3600L);
                     return configuration;
                 }))

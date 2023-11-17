@@ -20,6 +20,11 @@ spring:
           enabled: false
           lower-case-service-id: true
     config:
-      name: common, apigateway
-server:
-  forward-headers-strategy: framework
+      name: common, jwt-common, apigateway
+debug: true
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE
