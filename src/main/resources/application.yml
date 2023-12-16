@@ -5,7 +5,7 @@ spring:
     import: "configserver:http://localhost:8071"
   cloud:
     gateway:
-#      globalcors:
+      globalcors:
 #        cors-configurations:
 #          '[/**]':
 #            allowedOrigins: "http://localhost:5173"
@@ -26,5 +26,5 @@ logging:
   level:
     org:
       springframework:
-        cloud:
-          gateway: TRACE
+        cloud: TRACE
+#          gateway: TRACE

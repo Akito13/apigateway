@@ -21,14 +21,14 @@ public class ApigatewayApplication {
 	public RouteLocator bookShopRouteConfig(RouteLocatorBuilder locatorBuilder, AuthorizationHeaderFilter authorizationHeaderFilter){
 		return locatorBuilder.routes()
 				.route(r -> r.path("/bookshop/api/sach/**","/bookshop/api/loai/**")
-						.and().order(1).method(HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE)
+						.and().method(HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE, HttpMethod.PATCH)
 						.filters(f -> f
 								.rewritePath("/bookshop/api/sach/(?<segment>.*)", "/api/sach/${segment}")
-								.stripPrefix(1)
+								.rewritePath("/bookshop/api/loai/(?<segment>.*)", "/api/loai/${segment}")
 								.filter(authorizationHeaderFilter.apply(new AuthorizationHeaderFilter.Config("ROLE_ADMIN"))))
 						.uri("lb://SACH"))
 				.route(r -> r.path("/bookshop/api/sach/**", "/bookshop/api/loai/**")
-						.and().order(2).method(HttpMethod.GET)
+						.and().method(HttpMethod.GET)
 						.filters(f -> f
 								.rewritePath("/bookshop/api/sach/(?<segment>.*)", "/api/sach/${segment}")
 								.rewritePath("/bookshop/api/loai/(?<segment>.*)", "/api/loai/${segment}"))
@@ -45,6 +45,12 @@ public class ApigatewayApplication {
 				.route(r -> r.path("/bookshop/api/confirm/**")
 						.filters(f -> f.rewritePath("/bookshop/api/confirm/(?<segment>.*)", "/api/confirm/${segment}"))
 						.uri("lb://MAIL-SERVICE"))
+				.route(r -> r.path("/bookshop/api/order/**")
+						.filters(f -> f.rewritePath("/bookshop/api/order/(?<segment>.*)", "/api/order/${segment}"))
+						.uri("lb://ORDER"))
+				.route(r -> r.path("/bookshop/api/statistics/**")
+						.filters(f -> f.rewritePath("/bookshop/api/statistics/(?<segment>.*)", "/api/statistics/${segment}"))
+						.uri("lb://STATISTICS"))
 				.build();
 	}
 }
